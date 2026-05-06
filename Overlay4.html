@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <title>BAAO Overlay Maker</title>
 
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 
+<style>
 *{
   box-sizing:border-box;
 }
@@ -28,9 +29,7 @@ html,body{
   color:white;
 }
 
-/* =========================
-   LEFT EDITOR
-========================= */
+/* EDITOR */
 
 #editor{
   width:410px;
@@ -106,9 +105,7 @@ button:hover{
   margin-bottom:10px;
 }
 
-/* =========================
-   OVERLAY AREA
-========================= */
+/* OVERLAY AREA */
 
 #overlayArea{
   flex:1;
@@ -138,51 +135,36 @@ button:hover{
   transform:translate(-50%,-50%);
 }
 
-/* =========================
-   TEXT STYLE
-========================= */
+/* TEXT */
 
 #overlayText{
   position:absolute;
-
   left:50%;
   top:88%;
-
   transform:translate(-50%,-50%);
 
+  font-family:'Luckiest Guy', cursive;
   font-size:72px;
-  font-weight:1000;
-
-  font-family:
-    Impact,
-    Haettenschweiler,
-    "Arial Black",
-    sans-serif;
-
-  letter-spacing:-2px;
   line-height:1;
+  letter-spacing:2px;
 
+  color:white;
   -webkit-text-stroke:8px black;
   paint-order:stroke fill;
 
   white-space:nowrap;
-
   user-select:none;
   pointer-events:none;
 }
 
-/* =========================
-   TEXT EFFECTS
-========================= */
+/* TEXT EFFECTS */
 
 .solid{
   color:var(--textColor);
-  filter:none;
+  -webkit-text-fill-color:var(--textColor);
 }
 
 .rainbow{
-  color:transparent !important;
-
   background-image:linear-gradient(
     90deg,
     #ff0000,
@@ -200,17 +182,12 @@ button:hover{
 
   -webkit-background-clip:text;
   background-clip:text;
-
   -webkit-text-fill-color:transparent;
 
   animation:rainbowMove 4s linear infinite;
-
-  filter:none;
 }
 
 .aurora{
-  color:transparent !important;
-
   background-image:linear-gradient(
     120deg,
     #00eaff,
@@ -226,12 +203,9 @@ button:hover{
 
   -webkit-background-clip:text;
   background-clip:text;
-
   -webkit-text-fill-color:transparent;
 
   animation:auroraFlow 5s ease-in-out infinite;
-
-  filter:none;
 }
 
 @keyframes rainbowMove{
@@ -258,9 +232,7 @@ button:hover{
   }
 }
 
-/* =========================
-   OVERLAY ONLY MODE
-========================= */
+/* OVERLAY ONLY MODE */
 
 body.overlayOnly #editor{
   display:none;
@@ -274,7 +246,6 @@ body.overlayOnly #overlayArea{
   width:100vw;
   height:100vh;
 }
-
 </style>
 </head>
 
@@ -282,7 +253,6 @@ body.overlayOnly #overlayArea{
 
 <div id="app">
 
-  <!-- EDITOR -->
   <div id="editor">
 
     <h1>BAAO Overlay Maker</h1>
@@ -292,39 +262,20 @@ body.overlayOnly #overlayArea{
 
     <button onclick="addSlide()">Add PNG Slide</button>
 
-    <button class="good" onclick="savePreset()">
-      Save Preset
-    </button>
+    <button class="good" onclick="savePreset()">Save Preset</button>
 
     <label>Load Preset</label>
-
-    <select id="presetSelect"
-      onchange="loadPreset(this.value)">
-
-      <option value="">
-        Select preset...
-      </option>
-
+    <select id="presetSelect" onchange="loadPreset(this.value)">
+      <option value="">Select preset...</option>
     </select>
 
-    <button onclick="startOverlay()">
-      Start Rotation
-    </button>
-
-    <button onclick="stopOverlay()">
-      Stop Rotation
-    </button>
+    <button onclick="startOverlay()">Start Rotation</button>
+    <button onclick="stopOverlay()">Stop Rotation</button>
 
     <label>Seconds Per Slide</label>
+    <input id="speedInput" type="number" value="5" min="1">
 
-    <input id="speedInput"
-      type="number"
-      value="5"
-      min="1">
-
-    <button onclick="toggleOverlayOnly()">
-      Overlay Only Mode
-    </button>
+    <button onclick="toggleOverlayOnly()">Overlay Only Mode</button>
 
     <hr>
 
@@ -332,16 +283,13 @@ body.overlayOnly #overlayArea{
 
   </div>
 
-  <!-- OVERLAY -->
   <div id="overlayArea">
 
     <div id="overlayContent">
 
       <img id="overlayImage">
 
-      <div id="overlayText"
-        class="solid">
-      </div>
+      <div id="overlayText" class="solid"></div>
 
     </div>
 
@@ -350,25 +298,17 @@ body.overlayOnly #overlayArea{
 </div>
 
 <script>
-
 let slides = [];
 
 let currentIndex = 0;
 
 let rotationTimer = null;
 
-const overlayContent =
-  document.getElementById("overlayContent");
+const overlayContent = document.getElementById("overlayContent");
 
-const overlayImage =
-  document.getElementById("overlayImage");
+const overlayImage = document.getElementById("overlayImage");
 
-const overlayText =
-  document.getElementById("overlayText");
-
-/* =========================
-   ADD SLIDE
-========================= */
+const overlayText = document.getElementById("overlayText");
 
 function addSlide(){
 
@@ -381,19 +321,16 @@ function addSlide(){
     y:88
   });
 
+  currentIndex = slides.length - 1;
+
   renderSlides();
 
   showSlide(currentIndex);
 }
 
-/* =========================
-   RENDER EDITOR
-========================= */
-
 function renderSlides(){
 
-  const container =
-    document.getElementById("slidesContainer");
+  const container = document.getElementById("slidesContainer");
 
   container.innerHTML = "";
 
@@ -404,52 +341,33 @@ function renderSlides(){
     box.className = "slideBox";
 
     box.innerHTML = `
-
       <img src="${slide.image || ""}">
 
       <label>PNG File</label>
-
       <input
         type="file"
         accept="image/png,image/jpeg,image/webp"
         onchange="loadImage(event, ${index})">
 
       <label>Words Under PNG</label>
-
       <input
         value="${escapeHtml(slide.text)}"
         oninput="updateText(${index}, this.value)">
 
       <label>Text Style</label>
-
       <select onchange="updateEffect(${index}, this.value)">
-
-        <option value="solid"
-          ${slide.effect==="solid"?"selected":""}>
-          Solid Color
-        </option>
-
-        <option value="rainbow"
-          ${slide.effect==="rainbow"?"selected":""}>
-          Rainbow
-        </option>
-
-        <option value="aurora"
-          ${slide.effect==="aurora"?"selected":""}>
-          Aurora
-        </option>
-
+        <option value="solid" ${slide.effect==="solid"?"selected":""}>Solid Color</option>
+        <option value="rainbow" ${slide.effect==="rainbow"?"selected":""}>Rainbow</option>
+        <option value="aurora" ${slide.effect==="aurora"?"selected":""}>Aurora</option>
       </select>
 
       <label>Solid Text Color</label>
-
       <input
         type="color"
         value="${slide.color || "#57fff4"}"
         onchange="updateColor(${index}, this.value)">
 
       <label>Move Text Left / Right</label>
-
       <input
         type="range"
         min="0"
@@ -458,7 +376,6 @@ function renderSlides(){
         oninput="updateX(${index}, this.value)">
 
       <label>Move Text Up / Down</label>
-
       <input
         type="range"
         min="0"
@@ -466,30 +383,16 @@ function renderSlides(){
         value="${slide.y || 88}"
         oninput="updateY(${index}, this.value)">
 
-      <button onclick="moveSlideUp(${index})">
-        Move Up
-      </button>
+      <button onclick="moveSlideUp(${index})">Move Up</button>
 
-      <button onclick="moveSlideDown(${index})">
-        Move Down
-      </button>
+      <button onclick="moveSlideDown(${index})">Move Down</button>
 
-      <button class="danger"
-        onclick="removeSlide(${index})">
-
-        Remove Slide
-
-      </button>
-
+      <button class="danger" onclick="removeSlide(${index})">Remove Slide</button>
     `;
 
     container.appendChild(box);
   });
 }
-
-/* =========================
-   LOAD IMAGE
-========================= */
 
 function loadImage(event,index){
 
@@ -503,6 +406,8 @@ function loadImage(event,index){
 
     slides[index].image = e.target.result;
 
+    currentIndex = index;
+
     renderSlides();
 
     showSlide(currentIndex);
@@ -511,13 +416,11 @@ function loadImage(event,index){
   reader.readAsDataURL(file);
 }
 
-/* =========================
-   UPDATE SETTINGS
-========================= */
-
 function updateText(index,value){
 
   slides[index].text = value;
+
+  currentIndex = index;
 
   showSlide(currentIndex);
 }
@@ -526,12 +429,16 @@ function updateEffect(index,value){
 
   slides[index].effect = value;
 
+  currentIndex = index;
+
   showSlide(currentIndex);
 }
 
 function updateColor(index,value){
 
   slides[index].color = value;
+
+  currentIndex = index;
 
   showSlide(currentIndex);
 }
@@ -540,6 +447,8 @@ function updateX(index,value){
 
   slides[index].x = value;
 
+  currentIndex = index;
+
   showSlide(currentIndex);
 }
 
@@ -547,18 +456,20 @@ function updateY(index,value){
 
   slides[index].y = value;
 
+  currentIndex = index;
+
   showSlide(currentIndex);
 }
-
-/* =========================
-   REMOVE
-========================= */
 
 function removeSlide(index){
 
   slides.splice(index,1);
 
   if(currentIndex >= slides.length){
+    currentIndex = slides.length - 1;
+  }
+
+  if(currentIndex < 0){
     currentIndex = 0;
   }
 
@@ -566,10 +477,6 @@ function removeSlide(index){
 
   showSlide(currentIndex);
 }
-
-/* =========================
-   MOVE UP / DOWN
-========================= */
 
 function moveSlideUp(index){
 
@@ -580,6 +487,8 @@ function moveSlideUp(index){
   slides[index] = slides[index - 1];
 
   slides[index - 1] = temp;
+
+  currentIndex = index - 1;
 
   renderSlides();
 
@@ -596,14 +505,12 @@ function moveSlideDown(index){
 
   slides[index + 1] = temp;
 
+  currentIndex = index + 1;
+
   renderSlides();
 
   showSlide(currentIndex);
 }
-
-/* =========================
-   START ROTATION
-========================= */
 
 function startOverlay(){
 
@@ -615,10 +522,7 @@ function startOverlay(){
 
   showSlide(currentIndex);
 
-  const seconds =
-    Number(
-      document.getElementById("speedInput").value
-    ) || 5;
+  const seconds = Number(document.getElementById("speedInput").value) || 5;
 
   rotationTimer = setInterval(()=>{
 
@@ -626,8 +530,7 @@ function startOverlay(){
 
     setTimeout(()=>{
 
-      currentIndex =
-        (currentIndex + 1) % slides.length;
+      currentIndex = (currentIndex + 1) % slides.length;
 
       showSlide(currentIndex);
 
@@ -638,18 +541,10 @@ function startOverlay(){
   },seconds * 1000);
 }
 
-/* =========================
-   STOP
-========================= */
-
 function stopOverlay(){
 
   clearInterval(rotationTimer);
 }
-
-/* =========================
-   SHOW SLIDE
-========================= */
 
 function showSlide(index){
 
@@ -666,54 +561,35 @@ function showSlide(index){
 
   overlayImage.src = slide.image || "";
 
-  overlayText.textContent =
-    slide.text || "";
+  overlayText.textContent = slide.text || "";
 
   overlayText.className = "";
 
-  overlayText.classList.add(
-    slide.effect || "solid"
-  );
+  overlayText.classList.add(slide.effect || "solid");
 
-  overlayText.style.left =
-    (slide.x || 50) + "%";
+  overlayText.style.left = (slide.x || 50) + "%";
 
-  overlayText.style.top =
-    (slide.y || 88) + "%";
+  overlayText.style.top = (slide.y || 88) + "%";
 
-  overlayText.style.setProperty(
-    "--textColor",
-    slide.color || "#57fff4"
-  );
+  overlayText.style.setProperty("--textColor", slide.color || "#57fff4");
 
   if(slide.effect === "solid"){
 
-    overlayText.style.color =
-      slide.color || "#57fff4";
+    overlayText.style.color = slide.color || "#57fff4";
 
-    overlayText.style.webkitTextFillColor =
-      slide.color || "#57fff4";
+    overlayText.style.webkitTextFillColor = slide.color || "#57fff4";
 
   }else{
 
-    overlayText.style.color =
-      "transparent";
+    overlayText.style.color = "transparent";
 
-    overlayText.style.webkitTextFillColor =
-      "transparent";
+    overlayText.style.webkitTextFillColor = "transparent";
   }
 }
 
-/* =========================
-   SAVE PRESET
-========================= */
-
 function savePreset(){
 
-  const name =
-    document.getElementById("presetName")
-    .value
-    .trim();
+  const name = document.getElementById("presetName").value.trim();
 
   if(!name){
 
@@ -723,13 +599,8 @@ function savePreset(){
   }
 
   const presetData = {
-
     name:name,
-
-    speed:
-      document.getElementById("speedInput")
-      .value,
-
+    speed:document.getElementById("speedInput").value,
     slides:slides
   };
 
@@ -740,32 +611,68 @@ function savePreset(){
 
   loadPresetList();
 
-  alert("Preset saved.");
+  document.getElementById("presetSelect").value = name;
+
+  alert("Preset saved: " + name);
 }
 
-/* =========================
-   LOAD PRESET
-========================= */
+function loadPresetList(){
+
+  const select = document.getElementById("presetSelect");
+
+  const currentValue = select.value;
+
+  select.innerHTML = `<option value="">Select preset...</option>`;
+
+  const presetNames = [];
+
+  for(let i = 0; i < localStorage.length; i++){
+
+    const key = localStorage.key(i);
+
+    if(key.startsWith("BAAO_PRESET_")){
+
+      presetNames.push(key.replace("BAAO_PRESET_",""));
+    }
+  }
+
+  presetNames.sort();
+
+  presetNames.forEach((name)=>{
+
+    const option = document.createElement("option");
+
+    option.value = name;
+
+    option.textContent = name;
+
+    select.appendChild(option);
+  });
+
+  if(presetNames.includes(currentValue)){
+
+    select.value = currentValue;
+  }
+}
 
 function loadPreset(name){
 
   if(!name) return;
 
-  const saved =
-    localStorage.getItem(
-      "BAAO_PRESET_" + name
-    );
+  const saved = localStorage.getItem("BAAO_PRESET_" + name);
 
-  if(!saved) return;
+  if(!saved){
 
-  const presetData =
-    JSON.parse(saved);
+    alert("Preset not found.");
 
-  document.getElementById("presetName")
-    .value = presetData.name;
+    return;
+  }
 
-  document.getElementById("speedInput")
-    .value = presetData.speed || 5;
+  const presetData = JSON.parse(saved);
+
+  document.getElementById("presetName").value = presetData.name || name;
+
+  document.getElementById("speedInput").value = presetData.speed || 5;
 
   slides = presetData.slides || [];
 
@@ -776,84 +683,25 @@ function loadPreset(name){
   showSlide(currentIndex);
 }
 
-/* =========================
-   PRESET LIST
-========================= */
-
-function loadPresetList(){
-
-  const select =
-    document.getElementById("presetSelect");
-
-  select.innerHTML = `
-    <option value="">
-      Select preset...
-    </option>
-  `;
-
-  for(let i = 0; i < localStorage.length; i++){
-
-    const key =
-      localStorage.key(i);
-
-    if(key.startsWith("BAAO_PRESET_")){
-
-      const name =
-        key.replace(
-          "BAAO_PRESET_",
-          ""
-        );
-
-      const option =
-        document.createElement("option");
-
-      option.value = name;
-
-      option.textContent = name;
-
-      select.appendChild(option);
-    }
-  }
-}
-
-/* =========================
-   OVERLAY MODE
-========================= */
-
 function toggleOverlayOnly(){
 
-  document.body.classList.toggle(
-    "overlayOnly"
-  );
+  document.body.classList.toggle("overlayOnly");
 }
-
-/* =========================
-   ESCAPE
-========================= */
 
 function escapeHtml(text){
 
   return String(text)
-
     .replaceAll("&","&amp;")
-
     .replaceAll('"',"&quot;")
-
     .replaceAll("<","&lt;")
-
     .replaceAll(">","&gt;");
 }
-
-/* =========================
-   STARTUP
-========================= */
 
 loadPresetList();
 
 addSlide();
 
 showSlide(0);
-
 </script>
 
 </body>
