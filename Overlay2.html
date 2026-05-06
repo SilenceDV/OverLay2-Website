@@ -5,137 +5,153 @@
 <title>BAAO Overlay Maker</title>
 
 <style>
-* {
-  box-sizing: border-box;
+
+*{
+  box-sizing:border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:transparent;
+  font-family:Arial,sans-serif;
 }
 
-#app {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  background: #111;
-  color: white;
+#app{
+  width:100vw;
+  height:100vh;
+  display:flex;
+  background:#111;
+  color:white;
 }
 
-/* LEFT EDITOR */
-#editor {
-  width: 410px;
-  height: 100vh;
-  overflow-y: auto;
-  background: #181818;
-  border-right: 2px solid #333;
-  padding: 16px;
+/* =========================
+   LEFT EDITOR
+========================= */
+
+#editor{
+  width:410px;
+  height:100vh;
+  overflow-y:auto;
+  background:#181818;
+  border-right:2px solid #333;
+  padding:16px;
 }
 
-h1 {
-  font-size: 24px;
-  margin: 0 0 14px;
+h1{
+  margin:0 0 15px;
+  font-size:24px;
 }
 
-label {
-  font-size: 13px;
-  opacity: 0.85;
-  display: block;
-  margin-top: 8px;
+label{
+  display:block;
+  margin-top:8px;
+  font-size:13px;
+  opacity:0.9;
 }
 
-input, select, button {
-  width: 100%;
-  padding: 10px;
-  margin: 6px 0 12px;
-  border-radius: 8px;
-  border: none;
-  font-size: 15px;
+input,
+select,
+button{
+  width:100%;
+  padding:10px;
+  margin:6px 0 12px;
+  border:none;
+  border-radius:8px;
+  font-size:15px;
 }
 
-input, select {
-  background: #2b2b2b;
-  color: white;
+input,
+select{
+  background:#2b2b2b;
+  color:white;
 }
 
-button {
-  background: #00aaff;
-  color: white;
-  font-weight: 800;
-  cursor: pointer;
+button{
+  background:#00aaff;
+  color:white;
+  font-weight:800;
+  cursor:pointer;
 }
 
-button:hover {
-  opacity: 0.85;
+button:hover{
+  opacity:0.85;
 }
 
-.good {
-  background: #17a34a;
+.good{
+  background:#1ba84d;
 }
 
-.danger {
-  background: #d93636;
+.danger{
+  background:#d93636;
 }
 
-.slideBox {
-  background: #242424;
-  border: 1px solid #3a3a3a;
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 14px;
+.slideBox{
+  background:#242424;
+  border:1px solid #3a3a3a;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:14px;
 }
 
-.slideBox img {
-  width: 100%;
-  height: 125px;
-  object-fit: contain;
-  background: #000;
-  border-radius: 8px;
-  margin-bottom: 8px;
+.slideBox img{
+  width:100%;
+  height:130px;
+  object-fit:contain;
+  background:#000;
+  border-radius:8px;
+  margin-bottom:10px;
 }
 
-/* OVERLAY AREA */
-#overlayArea {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  background: transparent;
+/* =========================
+   OVERLAY AREA
+========================= */
+
+#overlayArea{
+  flex:1;
+  position:relative;
+  overflow:hidden;
+  background:transparent;
 }
 
-#overlayContent {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 700px;
-  height: 700px;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  opacity: 1;
-  transition: opacity 0.6s ease-in-out;
+#overlayContent{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:700px;
+  height:700px;
+  transform:translate(-50%,-50%);
+  opacity:1;
+  transition:opacity .6s ease-in-out;
 }
 
-#overlayImage {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 350px;
-  max-height: 430px;
-  object-fit: contain;
-  transform: translate(-50%, -50%);
+#overlayImage{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:350px;
+  max-height:430px;
+  object-fit:contain;
+  transform:translate(-50%,-50%);
 }
 
-/* TEXT STYLE LIKE YOUR PHOTO */
-#overlayText {
-  position: absolute;
-  left: 50%;
-  top: 88%;
-  transform: translate(-50%, -50%);
+/* =========================
+   TEXT STYLE
+========================= */
 
-  font-size: 72px;
-  font-weight: 1000;
+#overlayText{
+  position:absolute;
+
+  left:50%;
+  top:88%;
+
+  transform:translate(-50%,-50%);
+
+  font-size:72px;
+  font-weight:1000;
 
   font-family:
     Impact,
@@ -143,99 +159,122 @@ button:hover {
     "Arial Black",
     sans-serif;
 
-  letter-spacing: -2px;
-  line-height: 1;
+  letter-spacing:-2px;
+  line-height:1;
 
-  -webkit-text-stroke: 8px black;
-  paint-order: stroke fill;
+  -webkit-text-stroke:8px black;
+  paint-order:stroke fill;
 
-  text-shadow:
-    0 0 10px rgba(0,0,0,0.8),
-    0 0 18px rgba(0,0,0,0.8);
+  white-space:nowrap;
 
-  white-space: nowrap;
-  user-select: none;
-  pointer-events: none;
+  user-select:none;
+  pointer-events:none;
 }
 
-/* TEXT EFFECTS */
-.solid {
-  color: var(--textColor);
-  filter: drop-shadow(0 0 10px var(--textColor));
+/* =========================
+   TEXT EFFECTS
+========================= */
+
+.solid{
+  color:var(--textColor);
+  filter:none;
 }
 
-.rainbow {
-  color: transparent;
-  background: linear-gradient(
+.rainbow{
+  color:transparent !important;
+
+  background-image:linear-gradient(
     90deg,
-    #00f5ff,
-    #00ff88,
-    #ffe600,
-    #ff7b00,
+    #ff0000,
+    #ff9900,
+    #ffff00,
+    #00ff66,
+    #00ccff,
+    #6633ff,
     #ff00ff,
-    #00f5ff
+    #ff0000
   );
-  background-size: 400%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: rainbowMove 4s linear infinite;
-  filter: drop-shadow(0 0 12px #00f5ff);
+
+  background-size:400% 100%;
+  background-position:0% 50%;
+
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  -webkit-text-fill-color:transparent;
+
+  animation:rainbowMove 4s linear infinite;
+
+  filter:none;
 }
 
-.aurora {
-  color: transparent;
-  background: linear-gradient(
+.aurora{
+  color:transparent !important;
+
+  background-image:linear-gradient(
     120deg,
     #00eaff,
-    #7bffb2,
-    #b57cff,
+    #71ffb8,
+    #b56cff,
+    #ff8cff,
     #00aaff,
-    #ff8cff
+    #00eaff
   );
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: auroraFlow 5s ease-in-out infinite;
-  filter: drop-shadow(0 0 14px #7bffb2);
+
+  background-size:350% 350%;
+  background-position:0% 50%;
+
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  -webkit-text-fill-color:transparent;
+
+  animation:auroraFlow 5s ease-in-out infinite;
+
+  filter:none;
 }
 
-@keyframes rainbowMove {
-  0% {
-    background-position: 0%;
+@keyframes rainbowMove{
+  0%{
+    background-position:0% 50%;
   }
 
-  100% {
-    background-position: 400%;
-  }
-}
-
-@keyframes auroraFlow {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
+  100%{
+    background-position:400% 50%;
   }
 }
 
-/* OVERLAY ONLY MODE */
-body.overlayOnly #editor {
-  display: none;
+@keyframes auroraFlow{
+  0%{
+    background-position:0% 50%;
+  }
+
+  50%{
+    background-position:100% 50%;
+  }
+
+  100%{
+    background-position:0% 50%;
+  }
 }
 
-body.overlayOnly #app {
-  background: transparent;
+/* =========================
+   OVERLAY ONLY MODE
+========================= */
+
+body.overlayOnly #editor{
+  display:none;
 }
 
-body.overlayOnly #overlayArea {
-  width: 100vw;
-  height: 100vh;
+body.overlayOnly #app{
+  background:transparent;
 }
+
+body.overlayOnly #overlayArea{
+  width:100vw;
+  height:100vh;
+}
+
 </style>
 </head>
 
@@ -243,299 +282,533 @@ body.overlayOnly #overlayArea {
 
 <div id="app">
 
+  <!-- EDITOR -->
   <div id="editor">
+
     <h1>BAAO Overlay Maker</h1>
 
     <label>Preset Name</label>
-    <input id="presetName" placeholder="Example: Subway Surfers">
+    <input id="presetName" placeholder="Example: Rocket League">
 
     <button onclick="addSlide()">Add PNG Slide</button>
-    <button class="good" onclick="savePreset()">Save Preset</button>
+
+    <button class="good" onclick="savePreset()">
+      Save Preset
+    </button>
 
     <label>Load Preset</label>
-    <select id="presetSelect" onchange="loadPreset(this.value)">
-      <option value="">Select preset...</option>
+
+    <select id="presetSelect"
+      onchange="loadPreset(this.value)">
+
+      <option value="">
+        Select preset...
+      </option>
+
     </select>
 
-    <button onclick="startOverlay()">Start Rotation</button>
-    <button onclick="stopOverlay()">Stop Rotation</button>
+    <button onclick="startOverlay()">
+      Start Rotation
+    </button>
+
+    <button onclick="stopOverlay()">
+      Stop Rotation
+    </button>
 
     <label>Seconds Per Slide</label>
-    <input id="speedInput" type="number" value="5" min="1">
 
-    <button onclick="toggleOverlayOnly()">Overlay Only Mode</button>
+    <input id="speedInput"
+      type="number"
+      value="5"
+      min="1">
+
+    <button onclick="toggleOverlayOnly()">
+      Overlay Only Mode
+    </button>
 
     <hr>
 
     <div id="slidesContainer"></div>
+
   </div>
 
+  <!-- OVERLAY -->
   <div id="overlayArea">
+
     <div id="overlayContent">
+
       <img id="overlayImage">
-      <div id="overlayText" class="solid"></div>
+
+      <div id="overlayText"
+        class="solid">
+      </div>
+
     </div>
+
   </div>
 
 </div>
 
 <script>
+
 let slides = [];
+
 let currentIndex = 0;
+
 let rotationTimer = null;
 
-const overlayContent = document.getElementById("overlayContent");
-const overlayImage = document.getElementById("overlayImage");
-const overlayText = document.getElementById("overlayText");
+const overlayContent =
+  document.getElementById("overlayContent");
 
-function addSlide() {
+const overlayImage =
+  document.getElementById("overlayImage");
+
+const overlayText =
+  document.getElementById("overlayText");
+
+/* =========================
+   ADD SLIDE
+========================= */
+
+function addSlide(){
+
   slides.push({
-    image: "",
-    text: "Tickle",
-    effect: "solid",
-    color: "#57fff4",
-    x: 50,
-    y: 88
+    image:"",
+    text:"Tickle",
+    effect:"solid",
+    color:"#57fff4",
+    x:50,
+    y:88
   });
 
   renderSlides();
+
   showSlide(currentIndex);
 }
 
-function renderSlides() {
-  const container = document.getElementById("slidesContainer");
+/* =========================
+   RENDER EDITOR
+========================= */
+
+function renderSlides(){
+
+  const container =
+    document.getElementById("slidesContainer");
+
   container.innerHTML = "";
 
-  slides.forEach((slide, index) => {
+  slides.forEach((slide,index)=>{
+
     const box = document.createElement("div");
+
     box.className = "slideBox";
 
     box.innerHTML = `
+
       <img src="${slide.image || ""}">
 
       <label>PNG File</label>
-      <input type="file" accept="image/png,image/jpeg,image/webp" onchange="loadImage(event, ${index})">
+
+      <input
+        type="file"
+        accept="image/png,image/jpeg,image/webp"
+        onchange="loadImage(event, ${index})">
 
       <label>Words Under PNG</label>
-      <input value="${escapeHtml(slide.text)}" oninput="updateText(${index}, this.value)">
+
+      <input
+        value="${escapeHtml(slide.text)}"
+        oninput="updateText(${index}, this.value)">
 
       <label>Text Style</label>
+
       <select onchange="updateEffect(${index}, this.value)">
-        <option value="solid" ${slide.effect === "solid" ? "selected" : ""}>Solid Color</option>
-        <option value="rainbow" ${slide.effect === "rainbow" ? "selected" : ""}>Rainbow</option>
-        <option value="aurora" ${slide.effect === "aurora" ? "selected" : ""}>Aurora</option>
+
+        <option value="solid"
+          ${slide.effect==="solid"?"selected":""}>
+          Solid Color
+        </option>
+
+        <option value="rainbow"
+          ${slide.effect==="rainbow"?"selected":""}>
+          Rainbow
+        </option>
+
+        <option value="aurora"
+          ${slide.effect==="aurora"?"selected":""}>
+          Aurora
+        </option>
+
       </select>
 
       <label>Solid Text Color</label>
-      <input type="color" value="${slide.color || "#57fff4"}" onchange="updateColor(${index}, this.value)">
+
+      <input
+        type="color"
+        value="${slide.color || "#57fff4"}"
+        onchange="updateColor(${index}, this.value)">
 
       <label>Move Text Left / Right</label>
-      <input type="range" min="0" max="100" value="${slide.x || 50}" oninput="updateX(${index}, this.value)">
+
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value="${slide.x || 50}"
+        oninput="updateX(${index}, this.value)">
 
       <label>Move Text Up / Down</label>
-      <input type="range" min="0" max="100" value="${slide.y || 88}" oninput="updateY(${index}, this.value)">
 
-      <button onclick="moveSlideUp(${index})">Move Up</button>
-      <button onclick="moveSlideDown(${index})">Move Down</button>
-      <button class="danger" onclick="removeSlide(${index})">Remove Slide</button>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value="${slide.y || 88}"
+        oninput="updateY(${index}, this.value)">
+
+      <button onclick="moveSlideUp(${index})">
+        Move Up
+      </button>
+
+      <button onclick="moveSlideDown(${index})">
+        Move Down
+      </button>
+
+      <button class="danger"
+        onclick="removeSlide(${index})">
+
+        Remove Slide
+
+      </button>
+
     `;
 
     container.appendChild(box);
   });
 }
 
-function loadImage(event, index) {
+/* =========================
+   LOAD IMAGE
+========================= */
+
+function loadImage(event,index){
+
   const file = event.target.files[0];
 
-  if (!file) return;
+  if(!file) return;
 
   const reader = new FileReader();
 
-  reader.onload = function(e) {
+  reader.onload = function(e){
+
     slides[index].image = e.target.result;
+
     renderSlides();
+
     showSlide(currentIndex);
   };
 
   reader.readAsDataURL(file);
 }
 
-function updateText(index, value) {
+/* =========================
+   UPDATE SETTINGS
+========================= */
+
+function updateText(index,value){
+
   slides[index].text = value;
+
   showSlide(currentIndex);
 }
 
-function updateEffect(index, value) {
+function updateEffect(index,value){
+
   slides[index].effect = value;
+
   showSlide(currentIndex);
 }
 
-function updateColor(index, value) {
+function updateColor(index,value){
+
   slides[index].color = value;
+
   showSlide(currentIndex);
 }
 
-function updateX(index, value) {
+function updateX(index,value){
+
   slides[index].x = value;
+
   showSlide(currentIndex);
 }
 
-function updateY(index, value) {
+function updateY(index,value){
+
   slides[index].y = value;
+
   showSlide(currentIndex);
 }
 
-function removeSlide(index) {
-  slides.splice(index, 1);
+/* =========================
+   REMOVE
+========================= */
 
-  if (currentIndex >= slides.length) {
+function removeSlide(index){
+
+  slides.splice(index,1);
+
+  if(currentIndex >= slides.length){
     currentIndex = 0;
   }
 
   renderSlides();
+
   showSlide(currentIndex);
 }
 
-function moveSlideUp(index) {
-  if (index <= 0) return;
+/* =========================
+   MOVE UP / DOWN
+========================= */
+
+function moveSlideUp(index){
+
+  if(index <= 0) return;
 
   const temp = slides[index];
+
   slides[index] = slides[index - 1];
+
   slides[index - 1] = temp;
 
-  if (currentIndex === index) {
-    currentIndex = index - 1;
-  } else if (currentIndex === index - 1) {
-    currentIndex = index;
-  }
-
   renderSlides();
+
   showSlide(currentIndex);
 }
 
-function moveSlideDown(index) {
-  if (index >= slides.length - 1) return;
+function moveSlideDown(index){
+
+  if(index >= slides.length - 1) return;
 
   const temp = slides[index];
+
   slides[index] = slides[index + 1];
+
   slides[index + 1] = temp;
 
-  if (currentIndex === index) {
-    currentIndex = index + 1;
-  } else if (currentIndex === index + 1) {
-    currentIndex = index;
-  }
-
   renderSlides();
+
   showSlide(currentIndex);
 }
 
-function startOverlay() {
-  if (slides.length === 0) return;
+/* =========================
+   START ROTATION
+========================= */
+
+function startOverlay(){
+
+  if(slides.length === 0) return;
 
   clearInterval(rotationTimer);
 
   currentIndex = 0;
+
   showSlide(currentIndex);
 
-  const seconds = Number(document.getElementById("speedInput").value) || 5;
+  const seconds =
+    Number(
+      document.getElementById("speedInput").value
+    ) || 5;
 
-  rotationTimer = setInterval(() => {
+  rotationTimer = setInterval(()=>{
+
     overlayContent.style.opacity = 0;
 
-    setTimeout(() => {
-      currentIndex = (currentIndex + 1) % slides.length;
-      showSlide(currentIndex);
-      overlayContent.style.opacity = 1;
-    }, 600);
+    setTimeout(()=>{
 
-  }, seconds * 1000);
+      currentIndex =
+        (currentIndex + 1) % slides.length;
+
+      showSlide(currentIndex);
+
+      overlayContent.style.opacity = 1;
+
+    },600);
+
+  },seconds * 1000);
 }
 
-function stopOverlay() {
+/* =========================
+   STOP
+========================= */
+
+function stopOverlay(){
+
   clearInterval(rotationTimer);
 }
 
-function showSlide(index) {
-  if (slides.length === 0) {
+/* =========================
+   SHOW SLIDE
+========================= */
+
+function showSlide(index){
+
+  if(slides.length === 0){
+
     overlayImage.src = "";
+
     overlayText.textContent = "";
+
     return;
   }
 
   const slide = slides[index];
 
   overlayImage.src = slide.image || "";
-  overlayText.textContent = slide.text || "";
+
+  overlayText.textContent =
+    slide.text || "";
 
   overlayText.className = "";
-  overlayText.classList.add(slide.effect || "solid");
 
-  overlayText.style.left = (slide.x || 50) + "%";
-  overlayText.style.top = (slide.y || 88) + "%";
+  overlayText.classList.add(
+    slide.effect || "solid"
+  );
 
-  overlayText.style.setProperty("--textColor", slide.color || "#57fff4");
+  overlayText.style.left =
+    (slide.x || 50) + "%";
 
-  if (slide.effect === "solid") {
-    overlayText.style.color = slide.color || "#57fff4";
-  } else {
-    overlayText.style.color = "transparent";
+  overlayText.style.top =
+    (slide.y || 88) + "%";
+
+  overlayText.style.setProperty(
+    "--textColor",
+    slide.color || "#57fff4"
+  );
+
+  if(slide.effect === "solid"){
+
+    overlayText.style.color =
+      slide.color || "#57fff4";
+
+    overlayText.style.webkitTextFillColor =
+      slide.color || "#57fff4";
+
+  }else{
+
+    overlayText.style.color =
+      "transparent";
+
+    overlayText.style.webkitTextFillColor =
+      "transparent";
   }
 }
 
-function savePreset() {
-  const name = document.getElementById("presetName").value.trim();
+/* =========================
+   SAVE PRESET
+========================= */
 
-  if (!name) {
+function savePreset(){
+
+  const name =
+    document.getElementById("presetName")
+    .value
+    .trim();
+
+  if(!name){
+
     alert("Type a preset name first.");
+
     return;
   }
 
   const presetData = {
-    name: name,
-    speed: document.getElementById("speedInput").value,
-    slides: slides
+
+    name:name,
+
+    speed:
+      document.getElementById("speedInput")
+      .value,
+
+    slides:slides
   };
 
-  localStorage.setItem("BAAO_PRESET_" + name, JSON.stringify(presetData));
+  localStorage.setItem(
+    "BAAO_PRESET_" + name,
+    JSON.stringify(presetData)
+  );
 
   loadPresetList();
 
   alert("Preset saved.");
 }
 
-function loadPreset(name) {
-  if (!name) return;
+/* =========================
+   LOAD PRESET
+========================= */
 
-  const saved = localStorage.getItem("BAAO_PRESET_" + name);
+function loadPreset(name){
 
-  if (!saved) return;
+  if(!name) return;
 
-  const presetData = JSON.parse(saved);
+  const saved =
+    localStorage.getItem(
+      "BAAO_PRESET_" + name
+    );
 
-  document.getElementById("presetName").value = presetData.name;
-  document.getElementById("speedInput").value = presetData.speed || 5;
+  if(!saved) return;
+
+  const presetData =
+    JSON.parse(saved);
+
+  document.getElementById("presetName")
+    .value = presetData.name;
+
+  document.getElementById("speedInput")
+    .value = presetData.speed || 5;
 
   slides = presetData.slides || [];
+
   currentIndex = 0;
 
   renderSlides();
+
   showSlide(currentIndex);
 }
 
-function loadPresetList() {
-  const select = document.getElementById("presetSelect");
+/* =========================
+   PRESET LIST
+========================= */
 
-  select.innerHTML = `<option value="">Select preset...</option>`;
+function loadPresetList(){
 
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
+  const select =
+    document.getElementById("presetSelect");
 
-    if (key.startsWith("BAAO_PRESET_")) {
-      const name = key.replace("BAAO_PRESET_", "");
+  select.innerHTML = `
+    <option value="">
+      Select preset...
+    </option>
+  `;
 
-      const option = document.createElement("option");
+  for(let i = 0; i < localStorage.length; i++){
+
+    const key =
+      localStorage.key(i);
+
+    if(key.startsWith("BAAO_PRESET_")){
+
+      const name =
+        key.replace(
+          "BAAO_PRESET_",
+          ""
+        );
+
+      const option =
+        document.createElement("option");
+
       option.value = name;
+
       option.textContent = name;
 
       select.appendChild(option);
@@ -543,21 +816,44 @@ function loadPresetList() {
   }
 }
 
-function toggleOverlayOnly() {
-  document.body.classList.toggle("overlayOnly");
+/* =========================
+   OVERLAY MODE
+========================= */
+
+function toggleOverlayOnly(){
+
+  document.body.classList.toggle(
+    "overlayOnly"
+  );
 }
 
-function escapeHtml(text) {
+/* =========================
+   ESCAPE
+========================= */
+
+function escapeHtml(text){
+
   return String(text)
-    .replaceAll("&", "&amp;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
+
+    .replaceAll("&","&amp;")
+
+    .replaceAll('"',"&quot;")
+
+    .replaceAll("<","&lt;")
+
+    .replaceAll(">","&gt;");
 }
+
+/* =========================
+   STARTUP
+========================= */
 
 loadPresetList();
+
 addSlide();
+
 showSlide(0);
+
 </script>
 
 </body>
