@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BAAO Stream Overlay Maker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --panel:#151515;
+  --panel2:#202020;
+  --panel3:#292929;
+  --border:#3b3b3b;
+  --text:#ffffff;
+  --muted:rgba(255,255,255,.68);
+  --accent:#00aaff;
+  --good:#20b15a;
+  --danger:#d93636;
+  --warning:#ffb020;
+  --checker1:#2a2a2a;
+  --checker2:#1b1b1b;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:transparent;
+  color:var(--text);
+  font-family:Inter, Arial, sans-serif;
+}
+
+button,input,select,textarea{
+  font-family:Inter, Arial, sans-serif;
+}
+
+#app{
+  width:100vw;
+  height:100vh;
+  display:flex;
+  background:#0e0e0e;
+}
+
+#editor{
+  width:460px;
+  min-width:460px;
+  height:100vh;
+  overflow-y:auto;
+  background:linear-gradient(180deg,#171717,#101010);
+  border-right:2px solid var(--border);
+  padding:16px;
+}
+
+#editor::-webkit-scrollbar{
+  width:10px;
+}
+
+#editor::-webkit-scrollbar-track{
+  background:#111;
+}
+
+#editor::-webkit-scrollbar-thumb{
+  background:#444;
+  border-radius:999px;
+}
+
+.appTitle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+h1{
+  margin:0;
+  font-size:24px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+
+.badge{
+  font-size:11px;
+  font-weight:900;
+  padding:5px 8px;
+  border-radius:999px;
+  background:rgba(0,170,255,.14);
+  color:#62d1ff;
+  border:1px solid rgba(98,209,255,.35);
+  white-space:nowrap;
+}
+
+.section{
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:14px;
+}
+
+.sectionTitle{
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-weight:900;
+  color:rgba(255,255,255,.78);
+  margin:0 0 10px;
+}
+
+label{
+  display:block;
+  margin-top:8px;
+  font-size:12px;
+  font-weight:800;
+  opacity:.9;
+}
+
+input,select,textarea,button{
+  width:100%;
+  padding:10px;
+  margin:6px 0 12px;
+  border:none;
+  border-radius:10px;
+  font-size:14px;
+}
+
+input,select,textarea{
+  background:#2b2b2b;
+  color:white;
+  outline:1px solid transparent;
+}
+
+textarea{
+  min-height:78px;
+  resize:vertical;
+}
+
+input:focus,select:focus,textarea:focus{
+  outline:2px solid rgba(0,170,255,.55);
+}
+
+input[type="color"]{
+  height:42px;
+  padding:4px;
+  cursor:pointer;
+}
+
+input[type="range"]{
+  padding:0;
+  accent-color:var(--accent);
+}
+
+button{
+  background:var(--accent);
+  color:white;
+  font-weight:900;
+  cursor:pointer;
+  transition:transform .12s ease, opacity .12s ease, filter .12s ease;
+}
+
+button:hover{
+  filter:brightness(1.08);
+}
+
+button:active{
+  transform:scale(.98);
+}
+
+button.good{
+  background:var(--good);
+}
+
+button.danger{
+  background:var(--danger);
+}
+
+button.warning{
+  background:var(--warning);
+  color:#111;
+}
+
+button.dark{
+  background:#333;
+}
+
+button.small{
+  font-size:12px;
+  padding:8px;
+  margin:4px 0;
+}
+
+button.ghost{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.18);
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.row3{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+}
+
+.help{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.45;
+  margin:4px 0 8px;
+}
+
+.statusLine{
+  font-size:12px;
+  color:rgba(255,255,255,.7);
+  background:rgba(0,0,0,.18);
+  border:1px solid rgba(255,255,255,.08);
+  padding:8px;
+  border-radius:10px;
+  word-break:break-word;
+  margin-bottom:10px;
+}
+
+.hiddenFile{
+  position:absolute;
+  left:-9999px;
+  width:1px;
+  height:1px;
+  opacity:0;
+}
+
+.slideBox{
+  background:#202020;
+  border:1px solid #383838;
+  border-radius:16px;
+  padding:12px;
+  margin-bottom:14px;
+  box-shadow:0 12px 24px rgba(0,0,0,.18);
+}
+
+.slideHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:10px;
+}
+
+.slideHeader strong{
+  font-size:14px;
+}
+
+.slideTag{
+  font-size:11px;
+  color:rgba(255,255,255,.75);
+  background:rgba(255,255,255,.08);
+  padding:4px 8px;
+  border-radius:999px;
+}
+
+.thumb{
+  width:100%;
+  height:130px;
+  object-fit:contain;
+  background:#050505;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  margin-bottom:10px;
+}
+
+.rangeValue{
+  float:right;
+  opacity:.65;
+  font-size:11px;
+}
+
+.previewButtons{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:6px;
+}
+
+.previewButtons button{
+  margin:0 0 8px;
+  padding:8px 5px;
+  font-size:11px;
+}
+
+#overlayArea{
+  flex:1;
+  position:relative;
+  overflow:hidden;
+  background:transparent;
+}
+
+#stageGuide{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.22;
+  display:none;
+  background:
+    linear-gradient(to right, transparent calc(50% - 1px), rgba(255,255,255,.5) calc(50% - 1px), rgba(255,255,255,.5) calc(50% + 1px), transparent calc(50% + 1px)),
+    linear-gradient(to bottom, transparent calc(50% - 1px), rgba(255,255,255,.5) calc(50% - 1px), rgba(255,255,255,.5) calc(50% + 1px), transparent calc(50% + 1px));
+  z-index:5;
+}
+
+body.showGuides #stageGuide{
+  display:block;
+}
+
+#overlayArea.previewBlack{
+  background:#000;
+}
+
+#overlayArea.previewGreen{
+  background:#00b140;
+}
+
+#overlayArea.previewTransparent{
+  background:transparent;
+}
+
+#overlayArea.previewChecker{
+  background-color:var(--checker1);
+  background-image:
+    linear-gradient(45deg,var(--checker2) 25%,transparent 25%),
+    linear-gradient(-45deg,var(--checker2) 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,var(--checker2) 75%),
+    linear-gradient(-45deg,transparent 75%,var(--checker2) 75%);
+  background-size:40px 40px;
+  background-position:0 0,0 20px,20px -20px,-20px 0;
+}
+
+#overlayContent{
+  position:absolute;
+  inset:0;
+  opacity:1;
+  transition:opacity .45s ease-in-out;
+  pointer-events:none;
+}
+
+#overlayImage{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:360px;
+  max-width:120vw;
+  max-height:120vh;
+  object-fit:contain;
+  transform:translate(-50%,-50%);
+  transform-origin:center center;
+  user-select:none;
+  pointer-events:none;
+}
+
+#overlayText{
+  position:absolute;
+  left:50%;
+  top:82%;
+  transform:translate(-50%,-50%);
+  font-family:'Luckiest Guy', cursive;
+  font-size:72px;
+  line-height:1;
+  letter-spacing:2px;
+  color:white;
+  -webkit-text-stroke:3px black;
+  paint-order:stroke fill;
+  white-space:nowrap;
+  user-select:none;
+  pointer-events:none;
+  text-align:center;
+  max-width:96vw;
+}
+
+.solid{
+  color:var(--textColor);
+  -webkit-text-fill-color:var(--textColor);
+  text-shadow:none;
+}
+
+.rainbow{
+  background-image:linear-gradient(
+    90deg,
+    #ff0000 0%,
+    #ff9900 16%,
+    #ffff00 32%,
+    #00ff66 48%,
+    #00ccff 64%,
+    #6633ff 80%,
+    #ff00ff 100%
+  );
+  background-size:300% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  animation:rainbowMove 3s linear infinite;
+}
+
+.aurora{
+  background-image:linear-gradient(
+    120deg,
+    #00eaff 0%,
+    #71ffb8 25%,
+    #ffffff 40%,
+    #b56cff 60%,
+    #ff8cff 80%,
+    #00aaff 100%
+  );
+  background-size:300% 300%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  animation:auroraFlow 4s ease-in-out infinite;
+}
+
+@keyframes rainbowMove{
+  0%{
+    background-position:0% 50%;
+  }
+  100%{
+    background-position:300% 50%;
+  }
+}
+
+@keyframes auroraFlow{
+  0%{
+    background-position:0% 50%;
+  }
+  50%{
+    background-position:100% 50%;
+  }
+  100%{
+    background-position:0% 50%;
+  }
+}
+
+body.overlayOnly #editor{
+  display:none;
+}
+
+body.overlayOnly #app{
+  display:block;
+  background:transparent;
+}
+
+body.overlayOnly #overlayArea{
+  width:100vw;
+  height:100vh;
+}
+
+@media(max-width:900px){
+  #app{
+    display:block;
+    overflow:auto;
+    background:#0e0e0e;
+  }
+
+  #editor{
+    width:100%;
+    min-width:0;
+    height:auto;
+    max-height:none;
+    border-right:none;
+    border-bottom:2px solid var(--border);
+  }
+
+  #overlayArea{
+    height:58vh;
+    min-height:420px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<div id="editor">
+
+<div class="appTitle">
+<h1>BAAO Overlay Maker</h1>
+<span class="badge">Streamer App</span>
+</div>
+
+<div class="section">
+
+<p class="sectionTitle">Preset</p>
+
+<label>Preset Name</label>
+<input id="presetName" placeholder="Example: Rocket League Gifts">
+
+<div class="row">
+<button class="good" onclick="savePreset()">Save Preset</button>
+<button onclick="addSlide()">Add Slide</button>
+</div>
+
+<label>Load Preset</label>
+
+<select id="presetSelect" onchange="loadPreset(this.value)">
+<option value="">Select preset...</option>
+</select>
+
+<div class="row">
+<button class="warning" onclick="exportCurrentPreset()">Export JSON</button>
+<button class="warning" onclick="document.getElementById('importFile').click()">Import JSON</button>
+</div>
+
+<input
+id="importFile"
+class="hiddenFile"
+type="file"
+accept="application/json,.json"
+onchange="importPreset(event)"
+>
+
+<button class="danger" onclick="deleteCurrentPreset()">
+Delete Current Preset
+</button>
+
+<div id="saveStatus" class="statusLine">
+Autosave ready.
+</div>
+
+</div>
+
+<div class="section">
+
+<p class="sectionTitle">Overlay Controls</p>
+
+<div class="row">
+<button onclick="startOverlay()">Start Rotation</button>
+<button class="dark" onclick="stopOverlay()">Stop Rotation</button>
+</div>
+
+<label>
+Seconds Per Slide
+<span id="speedValue" class="rangeValue">5</span>
+</label>
+
+<input
+id="speedInput"
+type="range"
+value="5"
+min="1"
+max="60"
+oninput="updateSpeed(this.value)"
+>
+
+<label>Global Theme</label>
+
+<select id="themeSelect" onchange="updateTheme(this.value)">
+<option value="themeGlowBlueOrange">BAAO Blue / Orange</option>
+<option value="themeNeonGreenPurple">Neon Green / Purple</option>
+<option value="themeGoldVIP">Gold VIP</option>
+<option value="themeFire">Fire</option>
+<option value="themeIce">Ice</option>
+<option value="themeNone">Clean / No Glow</option>
+</select>
+
+<div class="row">
+<button class="dark" onclick="toggleOverlayOnly()">
+Overlay Only
+</button>
+
+<button class="dark" onclick="toggleGuides()">
+Guides
+</button>
+</div>
+
+<button onclick="copyOverlayLink()">Copy Overlay URL</button>
+
+</div>
+
+<div id="slidesContainer"></div>
+
+</div>
+
+<div id="overlayArea" class="previewChecker">
+
+<div id="stageGuide"></div>
+
+<div id="overlayContent">
+
+<img id="overlayImage">
+
+<div id="overlayText" class="solid"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+let db;
+let slides = [];
+let currentIndex = 0;
+let rotationTimer = null;
+
+const overlayImage = document.getElementById("overlayImage");
+const overlayText = document.getElementById("overlayText");
+const overlayContent = document.getElementById("overlayContent");
+
+function defaultSlide(){
+  return {
+    giftName:"New Gift",
+    image:"",
+    fileName:"",
+    text:"Tickle",
+    effect:"solid",
+    color:"#57fff4",
+    x:50,
+    y:82,
+    imageX:50,
+    imageY:45,
+    imageSize:360,
+    textSize:72
+  };
+}
+
+function openDatabase(){
+  return new Promise((resolve,reject)=>{
+
+    const request = indexedDB.open("BAAO_OVERLAY_DB",1);
+
+    request.onupgradeneeded = function(event){
+
+      db = event.target.result;
+
+      if(!db.objectStoreNames.contains("presets")){
+        db.createObjectStore("presets",{keyPath:"name"});
+      }
+    };
+
+    request.onsuccess = function(event){
+      db = event.target.result;
+      resolve();
+    };
+
+    request.onerror = function(){
+      reject(request.error);
+    };
+  });
+}
+
+function savePresetToDB(preset){
+  return new Promise((resolve,reject)=>{
+
+    const tx = db.transaction("presets","readwrite");
+    const store = tx.objectStore("presets");
+
+    store.put(preset);
+
+    tx.oncomplete = resolve;
+    tx.onerror = ()=>reject(tx.error);
+  });
+}
+
+function getPresetFromDB(name){
+  return new Promise((resolve,reject)=>{
+
+    const tx = db.transaction("presets","readonly");
+    const store = tx.objectStore("presets");
+
+    const request = store.get(name);
+
+    request.onsuccess = ()=>resolve(request.result);
+    request.onerror = ()=>reject(request.error);
+  });
+}
+
+function getAllPresetsFromDB(){
+  return new Promise((resolve,reject)=>{
+
+    const tx = db.transaction("presets","readonly");
+    const store = tx.objectStore("presets");
+
+    const request = store.getAll();
+
+    request.onsuccess = ()=>resolve(request.result || []);
+    request.onerror = ()=>reject(request.error);
+  });
+}
+
+function addSlide(){
+
+  slides.push(defaultSlide());
+
+  currentIndex = slides.length - 1;
+
+  renderSlides();
+
+  showSlide(currentIndex);
+}
+
+function renderSlides(){
+
+  const container = document.getElementById("slidesContainer");
+
+  container.innerHTML = "";
+
+  slides.forEach((slide,index)=>{
+
+    const fileId = "file_" + index;
+
+    const box = document.createElement("div");
+
+    box.className = "slideBox";
+
+    box.innerHTML = `
+      <div class="slideHeader">
+        <strong>Slide ${index + 1}</strong>
+        <span class="slideTag">${slide.giftName}</span>
+      </div>
+
+      <img class="thumb" src="${slide.image || ""}">
+
+      <label>Gift Name</label>
+
+      <input
+        value="${slide.giftName}"
+        oninput="updateGiftName(${index}, this.value)"
+      >
+
+      <button class="dark"
+        onclick="document.getElementById('${fileId}').click()">
+        Choose Image
+      </button>
+
+      <input
+        id="${fileId}"
+        class="hiddenFile"
+        type="file"
+        accept="image/png,image/jpeg,image/webp"
+        onchange="loadImage(event, ${index})"
+      >
+
+      <div class="statusLine">
+        ${slide.image ? "Image Loaded ✓" : "No Image Selected"}
+        ${slide.fileName ? "<br>" + slide.fileName : ""}
+      </div>
+
+      <label>Overlay Text</label>
+
+      <input
+        value="${slide.text}"
+        oninput="updateText(${index}, this.value)"
+      >
+
+      <label>Text Style</label>
+
+      <select onchange="updateEffect(${index}, this.value)">
+        <option value="solid" ${slide.effect==="solid"?"selected":""}>Solid</option>
+        <option value="rainbow" ${slide.effect==="rainbow"?"selected":""}>Rainbow</option>
+        <option value="aurora" ${slide.effect==="aurora"?"selected":""}>Aurora</option>
+      </select>
+
+      <label>Color</label>
+
+      <input
+        type="color"
+        value="${slide.color}"
+        onchange="updateColor(${index}, this.value)"
+      >
+
+      <label>Image Size</label>
+
+      <input
+        type="range"
+        min="80"
+        max="1200"
+        value="${slide.imageSize}"
+        oninput="updateImageSize(${index}, this.value)"
+      >
+
+      <label>Text Size</label>
+
+      <input
+        type="range"
+        min="18"
+        max="220"
+        value="${slide.textSize}"
+        oninput="updateTextSize(${index}, this.value)"
+      >
+
+      <div class="row">
+
+        <button class="small dark"
+          onclick="moveSlideUp(${index})">
+          Up
+        </button>
+
+        <button class="small dark"
+          onclick="moveSlideDown(${index})">
+          Down
+        </button>
+
+      </div>
+
+      <button
+        class="danger small"
+        onclick="removeSlide(${index})">
+        Remove Slide
+      </button>
+    `;
+
+    container.appendChild(box);
+  });
+}
+
+function loadImage(event,index){
+
+  const file = event.target.files[0];
+
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+
+    slides[index].image = e.target.result;
+    slides[index].fileName = file.name;
+
+    currentIndex = index;
+
+    renderSlides();
+
+    showSlide(currentIndex);
+
+    autoSave();
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function updateGiftName(index,value){
+  slides[index].giftName = value;
+  renderSlides();
+  autoSave();
+}
+
+function updateText(index,value){
+  slides[index].text = value;
+  currentIndex = index;
+  showSlide(currentIndex);
+  autoSave();
+}
+
+function updateEffect(index,value){
+  slides[index].effect = value;
+  currentIndex = index;
+  showSlide(currentIndex);
+  autoSave();
+}
+
+function updateColor(index,value){
+  slides[index].color = value;
+  currentIndex = index;
+  showSlide(currentIndex);
+  autoSave();
+}
+
+function updateImageSize(index,value){
+  slides[index].imageSize = Number(value);
+  currentIndex = index;
+  showSlide(currentIndex);
+  autoSave();
+}
+
+function updateTextSize(index,value){
+  slides[index].textSize = Number(value);
+  currentIndex = index;
+  showSlide(currentIndex);
+  autoSave();
+}
+
+function removeSlide(index){
+
+  slides.splice(index,1);
+
+  if(slides.length === 0){
+    slides.push(defaultSlide());
+  }
+
+  currentIndex = 0;
+
+  renderSlides();
+
+  showSlide(currentIndex);
+
+  autoSave();
+}
+
+function moveSlideUp(index){
+
+  if(index <= 0) return;
+
+  const temp = slides[index];
+
+  slides[index] = slides[index - 1];
+
+  slides[index - 1] = temp;
+
+  renderSlides();
+
+  autoSave();
+}
+
+function moveSlideDown(index){
+
+  if(index >= slides.length - 1) return;
+
+  const temp = slides[index];
+
+  slides[index] = slides[index + 1];
+
+  slides[index + 1] = temp;
+
+  renderSlides();
+
+  autoSave();
+}
+
+function startOverlay(){
+
+  if(slides.length === 0) return;
+
+  clearInterval(rotationTimer);
+
+  currentIndex = 0;
+
+  showSlide(currentIndex);
+
+  const seconds = Number(document.getElementById("speedInput").value) || 5;
+
+  rotationTimer = setInterval(()=>{
+
+    overlayContent.style.opacity = 0;
+
+    setTimeout(()=>{
+
+      currentIndex = (currentIndex + 1) % slides.length;
+
+      showSlide(currentIndex);
+
+      overlayContent.style.opacity = 1;
+
+    },450);
+
+  },seconds * 1000);
+}
+
+function stopOverlay(){
+  clearInterval(rotationTimer);
+}
+
+function showSlide(index){
+
+  const slide = slides[index];
+
+  if(!slide) return;
+
+  overlayImage.src = slide.image || "";
+
+  overlayImage.style.width = slide.imageSize + "px";
+
+  overlayText.textContent = slide.text || "";
+
+  overlayText.style.fontSize = slide.textSize + "px";
+
+  overlayText.className = "";
+
+  overlayText.classList.add(slide.effect || "solid");
+
+  overlayText.style.setProperty("--textColor", slide.color);
+
+  if(slide.effect === "solid"){
+
+    overlayText.style.color = slide.color;
+
+    overlayText.style.webkitTextFillColor = slide.color;
+
+  }else{
+
+    overlayText.style.color = "transparent";
+
+    overlayText.style.webkitTextFillColor = "transparent";
+  }
+}
+
+async function savePreset(){
+
+  const name = document.getElementById("presetName").value.trim();
+
+  if(!name){
+    alert("Type a preset name first.");
+    return;
+  }
+
+  const presetData = {
+    name:name,
+    slides:slides,
+    speed:document.getElementById("speedInput").value,
+    savedAt:Date.now()
+  };
+
+  await savePresetToDB(presetData);
+
+  localStorage.setItem("BAAO_LAST_PRESET", name);
+
+  await loadPresetList();
+
+  document.getElementById("presetSelect").value = name;
+
+  document.getElementById("saveStatus").textContent =
+    "Saved: " + name;
+}
+
+async function autoSave(){
+
+  const name = document.getElementById("presetName").value.trim();
+
+  if(!name) return;
+
+  const presetData = {
+    name:name,
+    slides:slides,
+    speed:document.getElementById("speedInput").value,
+    savedAt:Date.now()
+  };
+
+  await savePresetToDB(presetData);
+
+  localStorage.setItem("BAAO_LAST_PRESET", name);
+
+  document.getElementById("saveStatus").textContent =
+    "Autosaved";
+}
+
+async function loadPresetList(){
+
+  const select = document.getElementById("presetSelect");
+
+  select.innerHTML =
+    `<option value="">Select preset...</option>`;
+
+  const presets = await getAllPresetsFromDB();
+
+  presets.forEach(preset=>{
+
+    const option = document.createElement("option");
+
+    option.value = preset.name;
+
+    option.textContent = preset.name;
+
+    select.appendChild(option);
+  });
+}
+
+async function loadPreset(name){
+
+  if(!name) return;
+
+  const presetData = await getPresetFromDB(name);
+
+  if(!presetData) return;
+
+  slides = presetData.slides || [];
+
+  document.getElementById("presetName").value =
+    presetData.name;
+
+  document.getElementById("speedInput").value =
+    presetData.speed || 5;
+
+  renderSlides();
+
+  showSlide(0);
+}
+
+function toggleOverlayOnly(){
+  document.body.classList.toggle("overlayOnly");
+}
+
+function toggleGuides(){
+  document.body.classList.toggle("showGuides");
+}
+
+function copyOverlayLink(){
+
+  const name = document.getElementById("presetName").value.trim();
+
+  if(!name){
+    alert("Save a preset first.");
+    return;
+  }
+
+  const baseUrl =
+    window.location.href.split("?")[0];
+
+  const overlayUrl =
+    baseUrl +
+    "?mode=overlay&preset=" +
+    encodeURIComponent(name);
+
+  navigator.clipboard.writeText(overlayUrl);
+
+  alert("Overlay URL copied.");
+}
+
+function exportCurrentPreset(){
+
+  const presetData = {
+    name:document.getElementById("presetName").value,
+    slides:slides
+  };
+
+  const blob = new Blob(
+    [JSON.stringify(presetData,null,2)],
+    {type:"application/json"}
+  );
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+
+  a.download = "overlay_preset.json";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+function importPreset(event){
+
+  const file = event.target.files[0];
+
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = async function(e){
+
+    const presetData =
+      JSON.parse(e.target.result);
+
+    await savePresetToDB(presetData);
+
+    await loadPresetList();
+
+    await loadPreset(presetData.name);
+
+    alert("Preset imported.");
+  };
+
+  reader.readAsText(file);
+}
+
+async function startup(){
+
+  await openDatabase();
+
+  await loadPresetList();
+
+  const params =
+    new URLSearchParams(window.location.search);
+
+  const mode = params.get("mode");
+
+  const preset = params.get("preset");
+
+  if(mode === "overlay"){
+    document.body.classList.add("overlayOnly");
+  }
+
+  if(preset){
+
+    await loadPreset(preset);
+
+    startOverlay();
+
+    return;
+  }
+
+  const lastPreset =
+    localStorage.getItem("BAAO_LAST_PRESET");
+
+  if(lastPreset){
+
+    await loadPreset(lastPreset);
+
+  }else{
+
+    slides = [defaultSlide()];
+
+    renderSlides();
+
+    showSlide(0);
+  }
+}
+
+startup();
+</script>
+
+</body>
+</html>
